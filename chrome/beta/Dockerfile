@@ -58,8 +58,7 @@ RUN mkdir -p /usr/share/icons/hicolor && \
 RUN add-apt-repository ppa:graphics-drivers/ppa
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
-	nvidia-355 \
-	--no-install-recommends
+	nvidia-355
 
 COPY local.conf /etc/fonts/local.conf
 
