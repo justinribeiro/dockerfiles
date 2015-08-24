@@ -49,6 +49,7 @@ RUN mkdir -p /usr/share/icons/hicolor && \
 	libxtst6 \
 	wget \
 	xdg-utils \
+	fonts-liberation \
 	--no-install-recommends && \
 	dpkg -i '/src/google-chrome-unstable_current_amd64.deb' && \
 	dpkg -i '/src/google-talkplugin_current_amd64.deb' \
