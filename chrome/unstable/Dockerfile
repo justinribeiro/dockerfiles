@@ -50,7 +50,7 @@ RUN mkdir -p /usr/share/icons/hicolor && \
 	wget \
 	xdg-utils \
 	--no-install-recommends && \
-	dpkg -i '/src/google-chrome-beta_current_amd64.deb' && \
+	dpkg -i '/src/google-chrome-unstable_current_amd64.deb' && \
 	dpkg -i '/src/google-talkplugin_current_amd64.deb' \
 	&& rm -rf /var/lib/apt/lists/*
 
