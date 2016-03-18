@@ -30,7 +30,8 @@ RUN apt-get update && apt-get install -y \
   python \
   wget \
   openjdk-7-jdk \
-  nano
+  nano \
+  libxml2-utils
 
 # where the files exist
 VOLUME /opt/sourcecode
