@@ -1,11 +1,11 @@
 # Base docker image
-FROM ubuntu:15.04
+FROM ubuntu:15.10
 MAINTAINER Justin Ribeiro <justin@justinribeiro.com>
 
 #
 # Based on jfrazelle's: https://github.com/jfrazelle/dockerfiles/blob/master/chrome/beta/Dockerfile
 #
-# Changes are to run on my 15.04 + GTX 970 setup; your mileage will vary (fair warning)
+# Changes are to run on my 15.10 + GTX 970 setup; your mileage will vary (fair warning)
 #
 #        docker run -d \
 #                --memory 4gb
@@ -52,14 +52,13 @@ RUN mkdir -p /usr/share/icons/hicolor && \
 	fonts-liberation \
 	--no-install-recommends && \
 	dpkg -i '/src/google-chrome-unstable_current_amd64.deb' && \
-	dpkg -i '/src/google-talkplugin_current_amd64.deb' \
-	&& rm -rf /var/lib/apt/lists/*
+	dpkg -i '/src/google-talkplugin_current_amd64.deb' && \
+	rm -rf /var/lib/apt/lists/*
 
 # It's about to get ugly
 RUN add-apt-repository ppa:graphics-drivers/ppa
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
-	nvidia-361
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y nvidia-364
 
 COPY local.conf /etc/fonts/local.conf
 
