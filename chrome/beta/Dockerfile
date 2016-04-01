@@ -1,5 +1,5 @@
 # Base docker image
-FROM ubuntu:15.04
+FROM ubuntu:15.10
 MAINTAINER Justin Ribeiro <justin@justinribeiro.com>
 
 #
@@ -51,14 +51,13 @@ RUN mkdir -p /usr/share/icons/hicolor && \
 	xdg-utils \
 	--no-install-recommends && \
 	dpkg -i '/src/google-chrome-beta_current_amd64.deb' && \
-	dpkg -i '/src/google-talkplugin_current_amd64.deb' \
-	&& rm -rf /var/lib/apt/lists/*
+	dpkg -i '/src/google-talkplugin_current_amd64.deb' 	&& \
+  rm -rf /var/lib/apt/lists/*
 
 # It's about to get ugly
 RUN add-apt-repository ppa:graphics-drivers/ppa
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
-	nvidia-361
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y nvidia-364
 
 COPY local.conf /etc/fonts/local.conf
 
