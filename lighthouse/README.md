@@ -4,8 +4,6 @@ Experimental! Use at own risk. No warrenty. Et cetera.
 
 This allows you to run an interactive shell and play with both headless_shell and [lighthouse](https://github.com/GoogleChrome/lighthouse).
 
-This is from the tip of the Chromium source tree; pulls a DEB file I built, installs it and exposes dev tools debugging on port 9222.
-
 Step 1:
 ```
 docker run -it ~/your-local-dir:/opt/reports --net host justinribeiro/lighthouse
