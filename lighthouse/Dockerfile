@@ -6,7 +6,7 @@ MAINTAINER Justin Ribeiro <justin@justinribeiro.com>
 # Experimental! 
 #
 # Step 1:
-# docker run -it ~/your-local-dir:/opt/reports --net host justinribeiro/lighthouse
+# docker run -it -v ~/your-local-dir:/opt/reports --net host justinribeiro/lighthouse
 # 
 # Step 2: Once in shell, start headless_shell in background
 # headless_shell --no-sandbox --remote-debugging-port=9222 &>1 &
