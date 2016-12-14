@@ -48,4 +48,4 @@ EXPOSE 9222
 
 # Autorun chrome-headless without the sandbox
 ENTRYPOINT [ "/opt/stickmanventures/chrome-headless/headless_shell" ]
-CMD [ "--no-sandbox", "--remote-debugging-port=9222" ]
+CMD [ "--no-sandbox", "--remote-debugging-address=0.0.0.0", "--remote-debugging-port=9222" ]
