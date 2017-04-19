@@ -10,9 +10,6 @@ MAINTAINER Justin Ribeiro <justin@justinribeiro.com>
 # Access:
 # http://localhost:9222/
 
-# Pull my chrome-headless build
-ADD https://storage.googleapis.com/chrome-builds/headless/chrome-headless.deb /src/chrome-headless.deb
-
 # Setup deps, install chrome-headless
 RUN apt-get update && apt-get install -y \
   software-properties-common \
@@ -32,7 +29,9 @@ RUN apt-get update && apt-get install -y \
   zlib1g \ 
   xdg-utils \
   --no-install-recommends && \
+  curl -SL https://storage.googleapis.com/chrome-builds/headless/chrome-headless.deb -o /src/chrome-headless.deb && \
   dpkg -i '/src/chrome-headless.deb' && \
+  rm /src/chrome-headless.deb && \
   rm -rf /var/lib/apt/lists/*
 
 # expose 9222 so we can connect to it
