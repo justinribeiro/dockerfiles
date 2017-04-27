@@ -12,6 +12,7 @@ MAINTAINER Justin Ribeiro <justin@justinribeiro.com>
 
 # Setup deps, install chrome-headless
 RUN apt-get update && apt-get install -y \
+  curl \
   software-properties-common \
   ca-certificates \
   gconf-service \
