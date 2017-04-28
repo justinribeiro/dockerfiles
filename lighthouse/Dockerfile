@@ -55,7 +55,7 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - && \
   apt-get install -y nodejs
 
 # Install lighthouse
-RUN npm install -g lighthouse@1.1.6
+RUN npm install -g lighthouse
 
 # Make life easier to run headless_shell
 RUN chmod -R 777 /opt/stickmanventures/chrome-headless
