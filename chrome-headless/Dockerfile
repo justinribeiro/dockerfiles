@@ -30,6 +30,7 @@ RUN apt-get update && apt-get install -y \
   zlib1g \ 
   xdg-utils \
   --no-install-recommends && \
+  mkdir /src/ && \
   curl -SL https://storage.googleapis.com/chrome-builds/headless/chrome-headless.deb -o /src/chrome-headless.deb && \
   dpkg -i '/src/chrome-headless.deb' && \
   rm /src/chrome-headless.deb && \
