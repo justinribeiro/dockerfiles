@@ -1,11 +1,25 @@
-# Experimental build for Chrome Headless
+# Chrome Headless
 
-Experimental! Use at own risk. No warranty. Et cetera.
+What was once a container using the experimental build of headless_shell from tip, this container now runs and exposes stable Chrome headless via google-chome --headless.
 
-This is from the tip of the Chromium source tree; pulls a DEB file I built, installs it and exposes dev tools debugging on port 9222.
+## What's New 
+ 
+1. Pulls from Chrome Stable
+2. You can now use the ever-awesome Jessie Frazelle seccomp profile for Chrome.
+`wget https://raw.githubusercontent.com/jfrazelle/dotfiles/master/etc/docker/seccomp/chrome.json -O ~/chrome.json`
+
+## To run (without seccomp):
+`docker run -d -p 9222:9222 justinribeiro/chrome-headless`
+ 
+## To run (with seccomp):
+`docker run -d -p 9222:9222 --security-opt seccomp=$HOME/chrome.json justinribeiro/chrome-headless`
+
+## Using In DevTools
+Open Chrome and browse to `http://localhost:9222/`.
 
 ## Information on Chrome headless
 
+* [Getting Started with Chrome Headless](https://developers.google.com/web/updates/2017/04/headless-chrome)
 * [Chromium tracker](https://bugs.chromium.org/p/chromium/issues/list?q=label:Proj-Headless)
 * [Headless Chromium README](https://chromium.googlesource.com/chromium/src/+/lkgr/headless/README.md)
 * [headless-dev mailing list](https://groups.google.com/a/chromium.org/forum/#!forum/headless-dev)
@@ -25,10 +39,8 @@ You may have to _Load unsafe scripts_ from the omnibox shield icon to allow conn
 
 ## Red herrings
 Depending on the current build, if you run the container interactively you may see things like this on the console:
-
 ```sh
-[0119/175523.510224:WARNING:resource_bundle.cc(327)] locale_file_path.empty() for locale 
-[0119/175523.518835:WARNING:resource_bundle.cc(327)] locale_file_path.empty() for locale 
-[0119/175523.534345:WARNING:resource_bundle.cc(327)] locale_file_path.empty() for locale 
+[0501/162901.033074:WARNING:audio_manager.cc(295)] Multiple instances of AudioManager detected
+[0501/162901.033169:WARNING:audio_manager.cc(254)] Multiple instances of AudioManager detected
 ```
 In most cases, these messages can be safely ignored. They will sometimes change and eventually as things are updated in the source tree, resolved.
