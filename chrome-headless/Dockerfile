@@ -24,7 +24,7 @@
 FROM debian:sid
 LABEL name="chrome-headless"
 LABEL maintainer="Justin Ribeiro <justin@justinribeiro.com>"
-LABEL version="1.1"
+LABEL version="1.2"
 LABEL description="Google Chrome Headless in a container"
 
 # Install deps + add Chrome Stable + purge all the things
@@ -37,14 +37,14 @@ RUN apt-get update && apt-get install -y \
 	&& curl -sSL https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
 	&& echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
 	&& apt-get update && apt-get install -y \
-	google-chrome-unstable \
+	google-chrome-beta \
 	--no-install-recommends \
 	&& apt-get purge --auto-remove -y curl gnupg \
 	&& rm -rf /var/lib/apt/lists/*
 
 # Add Chrome as a user
 RUN groupadd -r chrome && useradd -r -g chrome -G audio,video chrome \
-    && chown -R chrome:chrome /home/chrome
+    && mkdir -p /home/chrome && chown -R chrome:chrome /home/chrome
 
 # Run Chrome non-privileged
 USER chrome
@@ -53,5 +53,5 @@ USER chrome
 EXPOSE 9222
 
 # Autorun chrome headless with no GPU
-ENTRYPOINT [ "google-chrome" ]
+ENTRYPOINT [ "google-chrome-beta" ]
 CMD [ "--headless", "--disable-gpu", "--remote-debugging-address=0.0.0.0", "--remote-debugging-port=9222" ]
