@@ -1,69 +1,60 @@
-# Base docker image
-FROM ubuntu:16.04
-MAINTAINER Justin Ribeiro <justin@justinribeiro.com>
-
+# Run Lighthouse w/ Chrome Headless in a container
 #
-# Experimental! 
+# Lighthouse is a tool that allows auditing, performance metrics, and best 
+# practices for Progressive Web Apps. 
 #
-# Step 1:
-# docker run -it -v ~/your-local-dir:/opt/reports --net host justinribeiro/lighthouse
+# What's New 
 # 
-# Step 2: Once in shell, start headless_shell in background
-# headless_shell --no-sandbox --remote-debugging-port=9222 &>1 &
+# 1. Allows cache busting so you always get the latest lighthouse.
+# 1. Pulls from Chrome M59+ for headless support.
+# 2. You can now use the ever-awesome Jessie Frazelle seccomp profile for Chrome.
+#     wget https://raw.githubusercontent.com/jfrazelle/dotfiles/master/etc/docker/seccomp/chrome.json -O ~/chrome.json
 #
-# Step 3: Run lighthouse
-# lighthouse https://www.your-url.com/
 #
-# Step 4: Make web faster, file tickets. :-)
+# To run (without seccomp):
+# docker run -it ~/your-local-dir:/opt/reports --net host justinribeiro/lighthouse
+# 
+# To run (with seccomp):
+# docker run -it ~/your-local-dir:/opt/reports --security-opt seccomp=$HOME/chrome.json --net host justinribeiro/lighthouse 
 #
 
-# Pull my chrome-headless build
-ADD https://storage.googleapis.com/chrome-builds/headless/chrome-headless.deb /src/chrome-headless.deb
+FROM debian:sid
+LABEL name="lighthouse" \
+      maintainer="Justin Ribeiro <justin@justinribeiro.com>" \
+      version="2.0" \
+      description="Lighthouse analyzes web apps and web pages, collecting modern performance metrics and insights on developer best practices."
 
-# Setup deps, install chrome-headless
+# Install deps + add Chrome Stable + purge all the things
 RUN apt-get update && apt-get install -y \
-  software-properties-common \
-  ca-certificates \
-  gconf-service \
-  libcurl3 \
-  libexif-dev \
-  libgconf-2-4 \
-  libglib2.0-0 \ 
-  libgl1-mesa-dri \
-  libgl1-mesa-glx \
-  libnspr4 \
-  libnss3 \
-  libpango1.0-0 \
-  libv4l-0 \
-  libxss1 \
-  libxtst6 \
-  libxrender1 \ 
-  libx11-6 \ 
-  libxft2 \ 
-  libfreetype6 \ 
-  libc6 \ 
-  zlib1g \ 
-  libpng12-0 \
-  wget \
-  xdg-utils \
-  curl \
-  --no-install-recommends && \
-  dpkg -i '/src/chrome-headless.deb'
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg \
+    --no-install-recommends \
+  && curl -sSL https://deb.nodesource.com/setup_6.x | bash - \
+  && curl -sSL https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
+  && echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
+  && apt-get update && apt-get install -y \
+    google-chrome-beta \
+    nodejs \
+    --no-install-recommends \
+  && npm --global install yarn \
+  && apt-get purge --auto-remove -y curl gnupg \
+  && rm -rf /var/lib/apt/lists/*
 
-# Get and install node.js
-RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - && \
-  apt-get install -y nodejs
+ARG CACHEBUST=1
+RUN yarn global add lighthouse
 
-# Install lighthouse
-RUN npm install -g lighthouse
-
-# Make life easier to run headless_shell
-RUN chmod -R 777 /opt/stickmanventures/chrome-headless
-ENV PATH "$PATH:/opt/stickmanventures/chrome-headless"
+# Add Chrome as a user
+RUN groupadd -r chrome && useradd -r -g chrome -G audio,video chrome \
+    && mkdir -p /home/chrome/reports && chown -R chrome:chrome /home/chrome
 
 # some place we can mount and view lighthouse reports
-VOLUME /opt/reports
-WORKDIR /opt/reports
+VOLUME /home/chrome/reports
+WORKDIR /home/chrome/reports
+
+# Run Chrome non-privileged
+USER chrome
 
 # Drop to cli
 CMD ["/bin/bash"]

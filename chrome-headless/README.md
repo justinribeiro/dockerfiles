@@ -9,9 +9,9 @@ What was once a container using the experimental build of headless_shell from ti
 `wget https://raw.githubusercontent.com/jfrazelle/dotfiles/master/etc/docker/seccomp/chrome.json -O ~/chrome.json`
 
 ## To run (without seccomp):
-`docker run -d -p 9222:9222 justinribeiro/chrome-headless`
+`docker run -d -p 9222:9222 --cap-add=SYS_ADMIN justinribeiro/chrome-headless`
  
-## To run (with seccomp):
+## To run a better way (with seccomp):
 `docker run -d -p 9222:9222 --security-opt seccomp=$HOME/chrome.json justinribeiro/chrome-headless`
 
 ## Using In DevTools

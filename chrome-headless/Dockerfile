@@ -12,9 +12,9 @@
 #
 #
 # To run (without seccomp):
-# docker run -d -p 9222:9222 justinribeiro/chrome-headless
+# docker run -d -p 9222:9222 --cap-add=SYS_ADMIN justinribeiro/chrome-headless
 # 
-# To run (with seccomp):
+# To run a better way (with seccomp):
 # docker run -d -p 9222:9222 --security-opt seccomp=$HOME/chrome.json justinribeiro/chrome-headless 
 #
 # Basic use: open Chrome, navigate to http://localhost:9222/
@@ -22,10 +22,10 @@
 
 # Base docker image
 FROM debian:sid
-LABEL name="chrome-headless"
-LABEL maintainer="Justin Ribeiro <justin@justinribeiro.com>"
-LABEL version="1.2"
-LABEL description="Google Chrome Headless in a container"
+LABEL name="chrome-headless" \ 
+			maintainer="Justin Ribeiro <justin@justinribeiro.com>" \
+			version="1.3" \
+			description="Google Chrome Headless in a container"
 
 # Install deps + add Chrome Stable + purge all the things
 RUN apt-get update && apt-get install -y \
