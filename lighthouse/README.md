@@ -1,30 +1,32 @@
-# Lighthouse in a box
+# Lighthouse in a container
 
-Experimental! Use at own risk. No warrenty. Et cetera.
+[Lighthouse](https://github.com/justinribeiro/dockerfiles/tree/master/lighthouse) analyzes web apps and web pages, collecting modern performance metrics and insights on developer best practices. This container allows you to use lighthouse in conjunction with the `--headless` option of Chrome M59+.
 
-This allows you to run an interactive shell and play with both headless_shell and [lighthouse](https://github.com/GoogleChrome/lighthouse).
+## How to Use
 
-Step 1:
+## Step 1: Run the container
+
 ```
-docker run -it ~/your-local-dir:/opt/reports --net host justinribeiro/lighthouse
-```
-
-Step 2: Once in shell, start headless_shell in background
-```
-headless_shell --no-sandbox --remote-debugging-port=9222 &>1 &
+docker run -it ~/your-local-dir:/home/chrome/reports --cap-add=SYS_ADMIN justinribeiro/lighthouse
 ```
 
-Step 3: Run lighthouse
+## Step 1 Improved: A better way with SECCOMP
+
+Using the ever-awesome [Jessie Frazelle](https://twitter.com/jessfraz) SECCOMP profile for Chrome, we don't have to use the hammer that is SYS_ADMIN:
+
 ```
-lighthouse https://www.your-url.com/
+$ wget https://raw.githubusercontent.com/jfrazelle/dotfiles/master/etc/docker/seccomp/chrome.json -O ~/chrome.json
+$ docker run -it ~/your-local-dir:/home/chrome/reports --security-opt seccomp=$HOME/chrome.json justinribeiro/lighthouse
 ```
 
-Step 4: Make web faster, file bugs accordingly. :-)
+## Step 2: Run Lighthouse with `--chrome-flags`
 
-## I just want to run headless_shell on 9222!
+Once you're in the container, using the `--chrome-flags` option available in lighthouse, we can automatically start Chrome in headless mode within the container light so:
+
+```
+lighthouse --chrome-flags="--headless --disable-gpu" https://justinribeiro.com
+```
+
+## I just want to run Chrome headless on 9222 within a container!
 
 Use my other [chrome-headless container](https://hub.docker.com/r/justinribeiro/chrome-headless/) for that.
-
-## Why Lighthouse 1.1.6?
-
-Because of changes in the way Lighthouse connects, until `Target.createTarget` becomes available in headless, newer versions won't work. This is a known issue and both [Chromium](https://bugs.chromium.org/p/chromium/issues/detail?id=666865) and [Lighthouse](https://github.com/GoogleChrome/lighthouse/issues/970) tickets exist to address it.
