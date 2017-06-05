@@ -24,7 +24,7 @@
 FROM debian:sid
 LABEL name="chrome-headless" \ 
 			maintainer="Justin Ribeiro <justin@justinribeiro.com>" \
-			version="1.3" \
+			version="1.4" \
 			description="Google Chrome Headless in a container"
 
 # Install deps + add Chrome Stable + purge all the things
@@ -37,7 +37,7 @@ RUN apt-get update && apt-get install -y \
 	&& curl -sSL https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
 	&& echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
 	&& apt-get update && apt-get install -y \
-	google-chrome-beta \
+	google-chrome-stable \
 	--no-install-recommends \
 	&& apt-get purge --auto-remove -y curl gnupg \
 	&& rm -rf /var/lib/apt/lists/*

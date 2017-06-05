@@ -21,7 +21,7 @@
 FROM debian:sid
 LABEL name="lighthouse" \
       maintainer="Justin Ribeiro <justin@justinribeiro.com>" \
-      version="2.0" \
+      version="2.1" \
       description="Lighthouse analyzes web apps and web pages, collecting modern performance metrics and insights on developer best practices."
 
 # Install deps + add Chrome Stable + purge all the things
@@ -35,7 +35,7 @@ RUN apt-get update && apt-get install -y \
   && curl -sSL https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
   && echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
   && apt-get update && apt-get install -y \
-    google-chrome-beta \
+    google-chrome-stable \
     nodejs \
     --no-install-recommends \
   && npm --global install yarn \
