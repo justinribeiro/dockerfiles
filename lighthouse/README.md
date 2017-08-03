@@ -7,7 +7,7 @@
 ## Step 1: Run the container
 
 ```
-docker run -it ~/your-local-dir:/home/chrome/reports --cap-add=SYS_ADMIN justinribeiro/lighthouse
+docker run -itv ~/your-local-dir:/home/chrome/reports --cap-add=SYS_ADMIN justinribeiro/lighthouse
 ```
 
 ## Step 1 Improved: A better way with SECCOMP
