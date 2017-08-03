@@ -16,7 +16,7 @@ Using the ever-awesome [Jessie Frazelle](https://twitter.com/jessfraz) SECCOMP p
 
 ```
 $ wget https://raw.githubusercontent.com/jfrazelle/dotfiles/master/etc/docker/seccomp/chrome.json -O ~/chrome.json
-$ docker run -it ~/your-local-dir:/home/chrome/reports --security-opt seccomp=$HOME/chrome.json justinribeiro/lighthouse
+$ docker run -itv ~/your-local-dir:/home/chrome/reports --security-opt seccomp=$HOME/chrome.json justinribeiro/lighthouse
 ```
 
 ## Step 2: Run Lighthouse with `--chrome-flags`
