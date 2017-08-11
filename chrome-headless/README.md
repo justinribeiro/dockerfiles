@@ -1,5 +1,7 @@
 # Chrome Headless
 
+[![Docker Pulls](https://img.shields.io/docker/pulls/justinribeiro/chrome-headless.svg)](https://hub.docker.com/r/justinribeiro/chrome-headless/)
+
 What was once a container using the experimental build of headless_shell from tip, this container now runs and exposes stable Chrome headless via google-chome --headless.
 
 ## What's New 

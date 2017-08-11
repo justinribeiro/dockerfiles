@@ -1,5 +1,7 @@
 # Lighthouse in a container
 
+[![Docker Pulls](https://img.shields.io/docker/pulls/justinribeiro/lighthouse.svg)](https://hub.docker.com/r/justinribeiro/lighthouse/)
+
 [Lighthouse](https://github.com/justinribeiro/dockerfiles/tree/master/lighthouse) analyzes web apps and web pages, collecting modern performance metrics and insights on developer best practices. This container allows you to use lighthouse in conjunction with the `--headless` option of Chrome M59+.
 
 ## How to Use
