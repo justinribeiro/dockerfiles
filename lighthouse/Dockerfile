@@ -38,12 +38,11 @@ RUN apt-get update && apt-get install -y \
     google-chrome-stable \
     nodejs \
     --no-install-recommends \
-  && npm --global install yarn \
   && apt-get purge --auto-remove -y curl gnupg \
   && rm -rf /var/lib/apt/lists/*
 
 ARG CACHEBUST=1
-RUN yarn global add lighthouse
+RUN npm install -g lighthouse
 
 # Add Chrome as a user
 RUN groupadd -r chrome && useradd -r -g chrome -G audio,video chrome \
