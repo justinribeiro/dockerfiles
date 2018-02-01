@@ -20,7 +20,7 @@
 
 FROM debian:sid
 LABEL name="lighthouse" \
-      maintainer="Andreas Krivas <andreas131313@gmail.com>" \
+      maintainer="Justin Ribeiro  <justin@justinribeiro.com>" \
       version="2.3" \
       description="Lighthouse analyzes web apps and web pages, collecting modern performance metrics and insights on developer best practices."
 
