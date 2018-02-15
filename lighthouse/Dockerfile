@@ -1,10 +1,10 @@
 # Run Lighthouse w/ Chrome Headless in a container
 #
-# Lighthouse is a tool that allows auditing, performance metrics, and best 
-# practices for Progressive Web Apps. 
+# Lighthouse is a tool that allows auditing, performance metrics, and best
+# practices for Progressive Web Apps.
 #
-# What's New 
-# 
+# What's New
+#
 # 1. Allows cache busting so you always get the latest lighthouse.
 # 1. Pulls from Chrome M59+ for headless support.
 # 2. You can now use the ever-awesome Jessie Frazelle seccomp profile for Chrome.
@@ -13,9 +13,9 @@
 #
 # To run (without seccomp):
 # docker run -it ~/your-local-dir:/opt/reports --net host justinribeiro/lighthouse
-# 
+#
 # To run (with seccomp):
-# docker run -it ~/your-local-dir:/opt/reports --security-opt seccomp=$HOME/chrome.json --net host justinribeiro/lighthouse 
+# docker run -it ~/your-local-dir:/opt/reports --security-opt seccomp=$HOME/chrome.json --net host justinribeiro/lighthouse
 #
 
 FROM debian:sid
@@ -31,7 +31,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     gnupg \
     --no-install-recommends \
-  && curl -sSL https://deb.nodesource.com/setup_6.x | bash - \
+  && curl -sSL https://deb.nodesource.com/setup_8.x | bash - \
   && curl -sSL https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
   && echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
   && apt-get update && apt-get install -y \
