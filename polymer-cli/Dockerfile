@@ -8,17 +8,18 @@
 #
 FROM node:alpine
 LABEL name="polymer-cli" \
-			maintainer="Justin Ribeiro <justin@justinribeiro.com>" \
-			version="1.0" \
-			description="polymer-cli in a container"
+	maintainer="Justin Ribeiro <justin@justinribeiro.com>" \
+	version="1.0" \
+	description="polymer-cli in a container"
 
 RUN mkdir -p /code
 WORKDIR /code
 ADD . /code
 
-RUN apk update && \
-    apk add git && \
-    npm install -g -s --no-progress bower polymer-cli --unsafe-perm
+RUN apk add --no-cache git && \
+	npm install -g -s --no-progress bower polymer-cli --unsafe-perm && \
+	npm cache clean --force && \
+	npm uninstall -g npm
 
 EXPOSE 8081
 
