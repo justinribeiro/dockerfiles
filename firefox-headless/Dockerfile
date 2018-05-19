@@ -9,7 +9,7 @@
 FROM debian:sid
 LABEL name="firefox-headless" \
 			maintainer="Justin Ribeiro <justin@justinribeiro.com>" \
-			version="1.4" \
+			version="1.0" \
 			description="Firefox Headless in a container"
 
 # Install deps + add Chrome Stable + purge all the things
@@ -17,12 +17,16 @@ RUN apt-get update && apt-get install -y \
 	apt-transport-https \
 	ca-certificates \
   gnupg \
-	--no-install-recommends \
-  && apt-get update && apt-get install -y \
 	firefox \
 	--no-install-recommends \
 	&& apt-get purge --auto-remove -y curl gnupg \
 	&& rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /etc/firefox/
+RUN echo '\
+    lockPref("devtools.debugger.force-local", false);\n\
+    lockPref("devtools.debugger.remote-enabled", true);\n'\
+		>> /etc/firefox/syspref.js
 
 # Add firefox as a user
 RUN groupadd -r firefox && useradd -r -g firefox -G audio,video firefox \
@@ -38,4 +42,4 @@ EXPOSE 6000
 
 # Autorun chrome headless with no GPU
 ENTRYPOINT [ "firefox" ]
-CMD [ "--start-debugger-server=6000", "-headless" ]
+CMD [ "--start-debugger-server","--headless"]
