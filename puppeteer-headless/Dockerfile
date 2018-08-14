@@ -8,7 +8,7 @@
 # 3. Define `/output` to be used with `--mount` for easy file output
 #
 # To run with seccomp:
-# cat example.js | docker run -i --rm --security-opt seccomp=$HOME/chrome.json \
+# echo example.js | docker run -i --rm --security-opt seccomp=$HOME/chrome.json \
 #    --mount type=bind,source="$(pwd)"/output,target=/output \
 #    --name puppeteer-headless \
 #    justinribeiro/puppeteer-headless \

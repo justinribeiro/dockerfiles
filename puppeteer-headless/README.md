@@ -11,7 +11,7 @@ wget https://raw.githubusercontent.com/jfrazelle/dotfiles/master/etc/docker/secc
 
 ## To run with seccomp
 ```sh
-cat example.js | docker run -i --rm --security-opt seccomp=$HOME/chrome.json \
+echo example.js | docker run -i --rm --security-opt seccomp=$HOME/chrome.json \
     --mount type=bind,source="$(pwd)"/output,target=/output \
     --name puppeteer-headless \
     justinribeiro/puppeteer-headless \
