@@ -41,6 +41,7 @@ RUN apt-get update && apt-get install -y \
     && apt-get purge --auto-remove -y curl \
     && rm -rf /src/*.deb
 
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 RUN npm i puppeteer
 
 RUN groupadd -r puppeteer && useradd -r -g puppeteer -G audio,video puppeteer \
