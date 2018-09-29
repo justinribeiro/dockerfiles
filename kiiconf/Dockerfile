@@ -26,25 +26,38 @@ RUN apt-get update && apt-get install -y \
   ninja-build \
   nodejs \
   php-cgi \
+  php-zip \
   python3 \
   python3-pil \
+  python3-pip \
+  vim \
   && apt-get purge --auto-remove -y curl \
   && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /KiiConf
 
+# heavy handed, but close enough for now
 RUN cd /KiiConf \
   && git clone https://github.com/justinribeiro/KiiConf.git . \
-  && tools/update_controller.bash \
   && mkdir -p /KiiConf/tmp && chmod 777 /KiiConf/tmp \
   && npm install \
+  && tools/update_all.bash \
   && npm run-script build \
-  && chown -R www-data:www-data /KiiConf/dist
+  && chown -R www-data:www-data /KiiConf
 
-RUN mkdir -p /var/run/lighttpd && chown www-data:www-data /var/run/lighttpd
-RUN touch /var/run/lighttpd.pid && chown www-data:www-data /var/run/lighttpd.pid
-RUN cp /KiiConf/test_lighttpd.conf /etc/lighttpd/lighttpd.conf
-RUN lighttpd-enable-mod fastcgi-php
+# Deps for kll building
+RUN pip3 install layout \
+  && pip3 install gitpython \
+  && pip3 install kll
+
+# chop out the pipenv check since that won't fly in container
+RUN sed -i.bak -e '34,44d' /KiiConf/controller/Keyboards/cmake.bash
+
+# setup the http side
+RUN mkdir -p /var/run/lighttpd && chown www-data:www-data /var/run/lighttpd \
+  && touch /var/run/lighttpd.pid && chown www-data:www-data /var/run/lighttpd.pid \
+  && cp /KiiConf/test_lighttpd.conf /etc/lighttpd/lighttpd.conf \
+  && lighttpd-enable-mod fastcgi-php
 
 EXPOSE 80
 
