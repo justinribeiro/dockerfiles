@@ -51,7 +51,6 @@ RUN apt-get update && apt-get install -y \
   python3 \
   python3-pil \
   python3-pip \
-  vim \
   && apt-get purge --auto-remove -y curl \
   && rm -rf /var/lib/apt/lists/*
 
