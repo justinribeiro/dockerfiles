@@ -77,9 +77,12 @@ RUN pip3 install layout \
 #    the container (I should dig up a link to why this fails)
 # 2. the path gen for kll is wrong, so we replace the specific line numbers for
 #    default and partial maps so that we can feed them from the tmp fs
-RUN sed -i.bak -e '34,44d' /KiiConf/controller/Keyboards/cmake.bash \
-  && sed -i.bak '163s|^.*$|set ( DefaultMap_Args ${DefaultMap_Args} ${PROJECT_BINARY_DIR}/${MAP}.kll )|' /KiiConf/controller/Lib/CMake/kll.cmake \
-  && sed -i.bak '192s|^.*$|set ( PartialMap_Args ${PartialMap_Args} ${PROJECT_BINARY_DIR}/${MAP_PART}.kll )|' /KiiConf/controller/Lib/CMake/kll.cmake
+RUN sed -i.bak -e '34,44d' /KiiConf/controller/Keyboards/cmake.bash
+
+  # Historical only; not required because of upstream patch
+  # https://github.com/kiibohd/controller/commit/5dd72c2b5b36cd9c33e9d1061ece96a0b0c770ea
+  # && sed -i.bak '163s|^.*$|set ( DefaultMap_Args ${DefaultMap_Args} ${PROJECT_BINARY_DIR}/${MAP}.kll )|' /KiiConf/controller/Lib/CMake/kll.cmake \
+  # && sed -i.bak '192s|^.*$|set ( PartialMap_Args ${PartialMap_Args} ${PROJECT_BINARY_DIR}/${MAP_PART}.kll )|' /KiiConf/controller/Lib/CMake/kll.cmake
 
 # This sets up the lighttpd server and the required PHP
 RUN mkdir -p /var/run/lighttpd && chown www-data:www-data /var/run/lighttpd \
