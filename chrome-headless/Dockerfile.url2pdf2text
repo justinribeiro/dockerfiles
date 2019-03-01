@@ -1,0 +1,91 @@
+# Run Chrome Headless in a container
+#
+# What was once a container using the experimental build of headless_shell from
+# tip, this container now runs and exposes stable Chrome headless via
+# google-chome --headless.
+#
+# What's New
+#
+# 1. Pulls from Chrome Stable
+# 2. You can now use the ever-awesome Jessie Frazelle seccomp profile for Chrome.
+#     wget https://raw.githubusercontent.com/jfrazelle/dotfiles/master/etc/docker/seccomp/chrome.json -O ~/chrome.json
+#
+#
+# To run (without seccomp):
+# docker run -d -p 9222:9222 --cap-add=SYS_ADMIN justinribeiro/chrome-headless
+#
+# To run a better way (with seccomp):
+# docker run -d -p 9222:9222 --security-opt seccomp=$HOME/chrome.json justinribeiro/chrome-headless
+#
+# Basic use: open Chrome, navigate to http://localhost:9222/
+#
+
+# Base docker image
+FROM debian:stretch-slim
+
+# following are labels to be carried with the image's manifest so they are discoverable in running environment not just in container registry
+# source of container image (regardless of mirroring that occurs)
+ARG IMAGE_SRC=unspecified
+LABEL image_src=${IMAGE_SRC}
+# traceability info about where the build occurred
+ARG BUILT_BY=unspecified
+LABEL built_by=${BUILT_BY}
+# semver string
+ARG SEMVER=unspecified
+LABEL semver=${SEMVER}
+# git repo built from
+ARG GIT_REPO=unspecified
+LABEL git_repo=${GIT_REPO}
+# git branch built from
+ARG GIT_BRANCH=unspecified
+LABEL git_branch=${GIT_BRANCH}
+# git commit id
+ARG GIT_COMMIT=unspecified
+LABEL git_commit=${GIT_COMMIT}
+# short description of any changes present in git repo clone - helps us ensure pipeline builds are not dirty and gives some traceability in local builds
+ARG GIT_STATUS=unspecified
+LABEL git_status=${GIT_STATUS}
+
+LABEL name="chrome-headless" \
+			maintainer="Luke Siler <lukesiler@gmail.com>" \
+			version=${SEMVER} \
+			description="Google Chrome Headless in a container"
+
+# Install deps + add Chrome Stable + purge all the things
+RUN apt-get update && apt-get install -y \
+	apt-transport-https \
+	ca-certificates \
+	curl \
+	gnupg \
+	--no-install-recommends \
+	&& curl -sSL https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
+	&& echo "deb https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
+	&& apt-get update && apt-get install -y \
+	google-chrome-stable \
+	fontconfig \
+	fonts-ipafont-gothic \
+	fonts-wqy-zenhei \
+	fonts-thai-tlwg \
+	fonts-kacst \
+	fonts-symbola \
+	fonts-noto \
+	ttf-freefont \
+	poppler-utils \
+	--no-install-recommends \
+	&& apt-get purge --auto-remove -y curl gnupg \
+	&& rm -rf /var/lib/apt/lists/*
+
+# Add Chrome as a user
+RUN groupadd -r chrome && useradd -r -g chrome -G audio,video chrome \
+    && mkdir -p /home/chrome && chown -R chrome:chrome /home/chrome \
+		&& mkdir -p /opt/google/chrome && chown -R chrome:chrome /opt/google/chrome
+
+# Run Chrome non-privileged
+USER chrome
+
+ENV PDF_PATH unspecified
+ENV TXT_PATH unspecified
+ENV SCRAPE_URL unspecified
+
+# Autorun chrome headless with no GPU
+CMD google-chrome --headless --disable-gpu --print-to-pdf=${PDF_PATH} ${SCRAPE_URL} && pdftotext -eol unix ${PDF_PATH} ${TXT_PATH}
