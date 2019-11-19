@@ -21,12 +21,11 @@
 #
 
 # Base docker image
-# Base docker image
-FROM debian:stretch-slim
+FROM debian:buster-slim
 LABEL name="chrome-headless" \
 	maintainer="Justin Ribeiro <justin@justinribeiro.com>" \
-	version="2.0" \
-	description="Google Chrome Headless in a container"
+	version="3.0" \
+	description="Google Chrome Beta Headless in a container"
 
 # Install deps + add Chrome Stable + purge all the things
 RUN apt-get update && apt-get install -y \
@@ -46,7 +45,7 @@ RUN apt-get update && apt-get install -y \
 	fonts-kacst \
 	fonts-symbola \
 	fonts-noto \
-	ttf-freefont \
+	fonts-freefont-ttf \
 	--no-install-recommends \
 	&& apt-get purge --auto-remove -y curl gnupg \
 	&& rm -rf /var/lib/apt/lists/*
