@@ -18,7 +18,7 @@
 # docker run -it ~/your-local-dir:/opt/reports --security-opt seccomp=$HOME/chrome.json --net host justinribeiro/lighthouse
 #
 
-FROM debian:sid
+FROM debian:jessie
 LABEL name="lighthouse" \
   maintainer="Justin Ribeiro <justin@justinribeiro.com>" \
   version="2.1" \
