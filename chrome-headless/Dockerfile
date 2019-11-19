@@ -21,10 +21,10 @@
 #
 
 # Base docker image
-FROM debian:stretch-slim
+FROM debian:buster-slim
 LABEL name="chrome-headless" \
 	maintainer="Justin Ribeiro <justin@justinribeiro.com>" \
-	version="2.0" \
+	version="3.0" \
 	description="Google Chrome Headless in a container"
 
 # Install deps + add Chrome Stable + purge all the things
@@ -45,15 +45,15 @@ RUN apt-get update && apt-get install -y \
 	fonts-kacst \
 	fonts-symbola \
 	fonts-noto \
-	ttf-freefont \
+	fonts-freefont-ttf \
 	--no-install-recommends \
 	&& apt-get purge --auto-remove -y curl gnupg \
 	&& rm -rf /var/lib/apt/lists/*
 
 # Add Chrome as a user
 RUN groupadd -r chrome && useradd -r -g chrome -G audio,video chrome \
-	&& mkdir -p /home/chrome && chown -R chrome:chrome /home/chrome \
-	&& mkdir -p /opt/google/chrome-unstable && chown -R chrome:chrome /opt/google/chrome-unstable
+	&& mkdir -p /home/chrome && chown -R chrome:chrome /home/chrome
+
 # Run Chrome non-privileged
 USER chrome
 
