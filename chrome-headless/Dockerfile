@@ -26,6 +26,8 @@ LABEL name="chrome-headless" \
 			maintainer="Justin Ribeiro <justin@justinribeiro.com>" \
 			version="2.0" \
 			description="Google Chrome Headless in a container"
+			
+ARG DEBIAN_FRONTEND=noninteractive
 
 # Install deps + add Chrome Stable + purge all the things
 RUN apt-get update && apt-get install -y \
@@ -52,8 +54,7 @@ RUN apt-get update && apt-get install -y \
 
 # Add Chrome as a user
 RUN groupadd -r chrome && useradd -r -g chrome -G audio,video chrome \
-    && mkdir -p /home/chrome && chown -R chrome:chrome /home/chrome \
-		&& mkdir -p /opt/google/chrome && chown -R chrome:chrome /opt/google/chrome
+    && mkdir -p /home/chrome && chown -R chrome:chrome /home/chrome
 
 # Run Chrome non-privileged
 USER chrome
