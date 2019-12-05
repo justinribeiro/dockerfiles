@@ -18,10 +18,10 @@
 # docker run -it ~/your-local-dir:/opt/reports --security-opt seccomp=$HOME/chrome.json --net host justinribeiro/lighthouse
 #
 
-FROM debian:jessie
+FROM debian:buster-slim
 LABEL name="lighthouse" \
   maintainer="Justin Ribeiro <justin@justinribeiro.com>" \
-  version="2.1" \
+  version="3.0" \
   description="Lighthouse analyzes web apps and web pages, collecting modern performance metrics and insights on developer best practices."
 
 # Install deps + add Chrome Stable + purge all the things
@@ -33,9 +33,17 @@ RUN apt-get update && apt-get install -y \
   --no-install-recommends \
   && curl -sSL https://deb.nodesource.com/setup_12.x | bash - \
   && curl -sSL https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
-  && echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
+  && echo "deb https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
   && apt-get update && apt-get install -y \
   google-chrome-stable \
+  fontconfig \
+  fonts-ipafont-gothic \
+  fonts-wqy-zenhei \
+  fonts-thai-tlwg \
+  fonts-kacst \
+  fonts-symbola \
+  fonts-noto \
+  fonts-freefont-ttf \
   nodejs \
   --no-install-recommends \
   && apt-get purge --auto-remove -y curl gnupg \
