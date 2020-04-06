@@ -21,8 +21,8 @@
 FROM debian:sid
 LABEL name="lighthouse" \
       maintainer="Justin Ribeiro <justin@justinribeiro.com>" \
-      version="2.1" \
-      description="Lighthouse analyzes web apps and web pages, collecting modern performance metrics and insights on developer best practices."
+      version="3.0" \
+      description="Lighthouse (beta) analyzes web apps and web pages, collecting modern performance metrics and insights on developer best practices."
 
 # Install deps + add Chrome Stable + purge all the things
 RUN apt-get update && apt-get install -y \
@@ -42,7 +42,7 @@ RUN apt-get update && apt-get install -y \
   && rm -rf /var/lib/apt/lists/*
 
 ARG CACHEBUST=1
-RUN npm install -g lighthouse
+RUN npm install -g lighthouse@next
 
 # Add Chrome as a user
 RUN groupadd -r chrome && useradd -r -g chrome -G audio,video chrome \
