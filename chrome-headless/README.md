@@ -46,3 +46,9 @@ Depending on the current build, if you run the container interactively you may s
 [0501/162901.033169:WARNING:audio_manager.cc(254)] Multiple instances of AudioManager detected
 ```
 In most cases, these messages can be safely ignored. They will sometimes change and eventually as things are updated in the source tree, resolved.
+
+## Building and Pushing
+
+To build, `./build.sh <tag>`, for example ./build.sh justinbeiro/chrome-headless:20211007-chromium
+
+To push, `./build.sh <tag>`, for example `./push.sh justinbeiro/chrome-headless:20211007-chromium`. This will push both amd64 and arm64 images.
