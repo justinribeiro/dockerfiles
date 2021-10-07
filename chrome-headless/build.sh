@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ $# != 1 ]; then
-  echo "\$1 must be the tag, like justinbeiro/headless-chrome:20211007-chromium" && exit 1
+  echo "\$1 must be the tag, like justinribeiro/headless-chrome:20211007-chromium" && exit 1
 fi
 tag=$1
 
