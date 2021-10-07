@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ $# != 1 ]; then
-  echo "\$1 must be the push-to image, like justinribeiro/chrome-headless:20211007-chromium" && exit 1
+  echo "\$1 must be the push-to image, like justinbeiro/headless-chrome:20211007-chromium" && exit 1
 fi
 pushto=$1
 
