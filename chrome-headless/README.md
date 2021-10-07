@@ -2,17 +2,19 @@
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/justinribeiro/chrome-headless.svg)](https://hub.docker.com/r/justinribeiro/chrome-headless/)
 
-What was once a container using the experimental build of headless_shell from tip, this container now runs and exposes stable Chrome headless via google-chome --headless.
+> NOTE: This build is specific to ARM64, particularly to support Apple's M1 silicon. HOWEVER, Chromium is vastly out of date in Debian (6 majors at the time of this writing), and should be considered a security concern at this point. Use at your own risk.
 
-## What's New 
- 
-1. Pulls from Chrome Stable
+What was once a container using the experimental build of headless_shell from tip, this container now runs and exposes Chrome headless via chromium --headless.
+
+## What's New
+
+1. Pulls Chromium
 2. You can now use the ever-awesome Jessie Frazelle seccomp profile for Chrome.
 `wget https://raw.githubusercontent.com/jfrazelle/dotfiles/master/etc/docker/seccomp/chrome.json -O ~/chrome.json`
 
 ## To run (without seccomp):
 `docker run -d -p 9222:9222 --cap-add=SYS_ADMIN justinribeiro/chrome-headless`
- 
+
 ## To run a better way (with seccomp):
 `docker run -d -p 9222:9222 --security-opt seccomp=$HOME/chrome.json justinribeiro/chrome-headless`
 
