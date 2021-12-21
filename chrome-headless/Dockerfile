@@ -21,7 +21,7 @@
 #
 
 # Base docker image
-FROM debian:bullseye-slim
+FROM debian:buster-slim
 LABEL name="chrome-headless" \
 	maintainer="Justin Ribeiro <justin@justinribeiro.com>" \
 	version="3.0" \

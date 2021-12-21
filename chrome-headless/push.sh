@@ -6,4 +6,4 @@ fi
 pushto=$1
 
 # build and push both arm64 and amd64 architectures
-docker buildx build --push --platform=linux/arm64 -t ${pushto} .
+docker buildx build --push --platform=linux/arm64,linux/amd64 -t ${pushto} .
